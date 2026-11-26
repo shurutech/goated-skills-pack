@@ -50,10 +50,10 @@ cd goated-skills-pack
 
 These need no setup.
 
-**`anti-sycophancy`**: The agent judges your claim on its own merits, gives its conclusion first, and keeps its position unless you give it a reason to change.
+**[`anti-sycophancy`](skills/anti-sycophancy/SKILL.md)**: The agent judges your claim on its own merits, gives its conclusion first, and keeps its position unless you give it a reason to change.
 > *Real example:* asked to swap loading skeletons for spinners, it pointed out the real problem: two skeletons that didn't match the shape of the content.
 
-**`verify-claim`**: When you ask "are you sure?", the agent restates the claim as a plain sentence and has isolated checkers try to disprove it from the source. It doesn't re-read its own earlier answer, which is what causes flip-flopping.
+**[`verify-claim`](skills/verify-claim/SKILL.md)**: When you ask "are you sure?", the agent restates the claim as a plain sentence and has isolated checkers try to disprove it from the source. It doesn't re-read its own earlier answer, which is what causes flip-flopping.
 > *Real example:* 11 checkers tested a plan's claims before any code was written. One claim was wrong: an endpoint didn't return a field the plan relied on. "No backend change needed" was withdrawn.
 
 ### 2. Build workflow: from "fix this" to a merged PR
@@ -66,29 +66,29 @@ issue-intake → plan-contract → feature builder → doc-sync → ship-pr
 
 Use the whole chain or pick pieces.
 
-**`issue-intake`**: The front door for every request. Asks all the blocking questions at once, sizes the work, and checks for duplicate tickets and open PRs.
+**[`issue-intake`](skills/issue-intake/SKILL.md)**: The front door for every request. Asks all the blocking questions at once, sizes the work, and checks for duplicate tickets and open PRs.
 > *Real example:* found that two tickets for the requested work already existed, so nothing got built twice.
 
-**`plan-contract`**: For medium and large changes. Investigates, checks claims against the code, and writes per-file task cards. Fresh agents attack the plan before it's frozen.
+**[`plan-contract`](skills/plan-contract/SKILL.md)**: For medium and large changes. Investigates, checks claims against the code, and writes per-file task cards. Fresh agents attack the plan before it's frozen.
 > *Real example:* the plan attack caught a typo path that would have wiped saved data, a lookup missing its tenant scope, and an undo action without a permission check, all before any code existed.
 
-**`frontend-feature-builder`** / **`backend-feature-builder`**: End-to-end build loops. Reuse what exists, verify the API contract field by field, and prove the change in a real browser or with a real request. Reference stacks: Next.js and FastAPI. Adapt them to yours.
+**[`frontend-feature-builder`](skills/frontend-feature-builder/SKILL.md)** / **[`backend-feature-builder`](skills/backend-feature-builder/SKILL.md)**: End-to-end build loops. Reuse what exists, verify the API contract field by field, and prove the change in a real browser or with a real request. Reference stacks: Next.js and FastAPI. Adapt them to yours.
 
-**`bugfix-loop`**: Pulls your assigned bugs from Linear, Jira or GitHub Issues and fixes them one branch at a time. Each fix is verified by actually exercising it.
+**[`bugfix-loop`](skills/bugfix-loop/SKILL.md)**: Pulls your assigned bugs from Linear, Jira or GitHub Issues and fixes them one branch at a time. Each fix is verified by actually exercising it.
 
-**`doc-sync`**: After a change, one agent updates every doc that cites the changed files. A second agent, told the edits are wrong, checks them against the code.
+**[`doc-sync`](skills/doc-sync/SKILL.md)**: After a change, one agent updates every doc that cites the changed files. A second agent, told the edits are wrong, checks them against the code.
 > *Why it exists:* a docs linter passed clean while about 60 facts in the docs were wrong.
 
-**`ship-pr`**: Runs only when you type `/ship-pr`. Fresh-eyes review, local CI on the exact commit, then the PRs are opened and merged bottom-up. Each merge is confirmed with git.
+**[`ship-pr`](skills/ship-pr/SKILL.md)**: Runs only when you type `/ship-pr`. Fresh-eyes review, local CI on the exact commit, then the PRs are opened and merged bottom-up. Each merge is confirmed with git.
 > *Real example:* the review caught personal data on its way into an error tracker's logs, before merge.
 
-**`module-loop`**: Redesigns one area of a web app, or makes it responsive. Builds clickable variants inside the running app for you to pick from.
+**[`module-loop`](skills/module-loop/SKILL.md)**: Redesigns one area of a web app, or makes it responsive. Builds clickable variants inside the running app for you to pick from.
 
 ### 3. Everyday helpers
 
-**`commit-review`**: Explains a commit in plain English: what changed, whether it was needed, and whether the frontend and backend agree.
+**[`commit-review`](skills/commit-review/SKILL.md)**: Explains a commit in plain English: what changed, whether it was needed, and whether the frontend and backend agree.
 
-**`standup-summary`**: A verified summary of what you shipped today, built from GitHub and your tracker.
+**[`standup-summary`](skills/standup-summary/SKILL.md)**: A verified summary of what you shipped today, built from GitHub and your tracker.
 
 > 💡 The builders start with a **"Configure for your project"** table: test commands, default branch and so on. Fill it in once, or ask your agent to.
 
@@ -100,12 +100,12 @@ Skills are instructions, and agents sometimes skip instructions. **Hooks are cod
 
 | Hook | Stops | Born from |
 |---|---|---|
-| `claim-guard` | "Tests pass" with no output to prove it | Agents passing off a helper's test results as their own |
-| `pr-claim-review` | PR descriptions that don't match the diff | It caught "removed everywhere" when the item was still in a side panel |
-| `ci-push-guard` | Pushing before local CI passes on that commit | A PR that needed four follow-up fixes |
-| `main-ci-gate` | Merging while main's CI is red | One day: 25 merges, 15 cancelled and 4 failed CI runs |
-| `heavy-job-lock` | Agents running lint and test jobs in parallel | 6 parallel lint runs, load at 51 on 15 cores |
-| `no-ai-attribution` | AI co-author lines in commits and PRs | Teams that want a clean history |
+| [`claim-guard`](hooks/claim-guard.js) | "Tests pass" with no output to prove it | Agents passing off a helper's test results as their own |
+| [`pr-claim-review`](hooks/pr-claim-review.js) | PR descriptions that don't match the diff | It caught "removed everywhere" when the item was still in a side panel |
+| [`ci-push-guard`](hooks/ci-push-guard.js) | Pushing before local CI passes on that commit | A PR that needed four follow-up fixes |
+| [`main-ci-gate`](hooks/main-ci-gate.js) | Merging while main's CI is red | One day: 25 merges, 15 cancelled and 4 failed CI runs |
+| [`heavy-job-lock`](hooks/heavy-job-lock.js) | Agents running lint and test jobs in parallel | 6 parallel lint runs, load at 51 on 15 cores |
+| [`no-ai-attribution`](hooks/no-ai-attribution.js) | AI co-author lines in commits and PRs | Teams that want a clean history |
 
 The repo-specific hooks stay **off until you name your repos** in their environment variables.
 

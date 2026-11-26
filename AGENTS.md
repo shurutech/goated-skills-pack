@@ -18,18 +18,18 @@ Use this table to pick skills. The `description` field in each `SKILL.md` is the
 
 | Skill | Load when | Depends on |
 |---|---|---|
-| `anti-sycophancy` | The user asks for an honest opinion or a review, or pushes back on an answer | none |
-| `verify-claim` | Someone asks "are you sure?" or "check that again", or a PR's description needs checking against its diff | none (works best with subagents) |
-| `issue-intake` | Any code-change request, before you create a branch or a ticket | routes to the skills below |
-| `plan-contract` | The change is medium or large: touches queries, endpoints, permissions, migrations, deletes or renames | `_shared/` |
-| `frontend-feature-builder` | You are building or fixing frontend features (reference stack: Next.js, React, TanStack Query) | `plan-contract`, `doc-sync`, `_shared/` |
-| `backend-feature-builder` | You are building or fixing API features (reference stack: FastAPI, SQLModel, Alembic) | `plan-contract`, `doc-sync`, `_shared/` |
-| `bugfix-loop` | "Fix my assigned bugs" or "next ticket" (Linear, Jira, GitHub Issues) | a builder skill; tracker access |
-| `module-loop` | Redesigning one area of a web app, or making it responsive | a browser tool, `plan-contract` |
-| `doc-sync` | A change altered behaviour, routes or file names, and the docs may now be stale | none |
-| `commit-review` | "Explain this commit" or "was this change necessary?" | git |
-| `ship-pr` | Only when the user types `/ship-pr`: review, run local CI, open PRs, merge | `gh` |
-| `standup-summary` | "What did I do today?" | `gh`, tracker access |
+| [`anti-sycophancy`](skills/anti-sycophancy/SKILL.md) | The user asks for an honest opinion or a review, or pushes back on an answer | none |
+| [`verify-claim`](skills/verify-claim/SKILL.md) | Someone asks "are you sure?" or "check that again", or a PR's description needs checking against its diff | none (works best with subagents) |
+| [`issue-intake`](skills/issue-intake/SKILL.md) | Any code-change request, before you create a branch or a ticket | routes to the skills below |
+| [`plan-contract`](skills/plan-contract/SKILL.md) | The change is medium or large: touches queries, endpoints, permissions, migrations, deletes or renames | `_shared/` |
+| [`frontend-feature-builder`](skills/frontend-feature-builder/SKILL.md) | You are building or fixing frontend features (reference stack: Next.js, React, TanStack Query) | `plan-contract`, `doc-sync`, `_shared/` |
+| [`backend-feature-builder`](skills/backend-feature-builder/SKILL.md) | You are building or fixing API features (reference stack: FastAPI, SQLModel, Alembic) | `plan-contract`, `doc-sync`, `_shared/` |
+| [`bugfix-loop`](skills/bugfix-loop/SKILL.md) | "Fix my assigned bugs" or "next ticket" (Linear, Jira, GitHub Issues) | a builder skill; tracker access |
+| [`module-loop`](skills/module-loop/SKILL.md) | Redesigning one area of a web app, or making it responsive | a browser tool, `plan-contract` |
+| [`doc-sync`](skills/doc-sync/SKILL.md) | A change altered behaviour, routes or file names, and the docs may now be stale | none |
+| [`commit-review`](skills/commit-review/SKILL.md) | "Explain this commit" or "was this change necessary?" | git |
+| [`ship-pr`](skills/ship-pr/SKILL.md) | Only when the user types `/ship-pr`: review, run local CI, open PRs, merge | `gh` |
+| [`standup-summary`](skills/standup-summary/SKILL.md) | "What did I do today?" | `gh`, tracker access |
 
 ## Install, by harness
 
