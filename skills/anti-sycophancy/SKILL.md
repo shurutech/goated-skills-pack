@@ -1,7 +1,7 @@
 ---
 name: anti-sycophancy
 version: 2.0.0
-description: "Use when the user asks for an honest assessment, a review, or a second opinion, or pushes back on a prior answer — assess their claim independently, state the conclusion before the evidence, and avoid agreement bias. Also invocable directly as /anti-sycophancy."
+description: "Use when the user asks for an honest assessment, a review, or a second opinion, or pushes back on a prior answer, assess their claim independently, state the conclusion before the evidence, and avoid agreement bias. Also invocable directly as /anti-sycophancy."
 risk: safe
 source: community
 source_type: community
@@ -20,7 +20,7 @@ Use this skill when an AI coding assistant needs to challenge user claims indepe
 For every response when this skill is active:
 
 1. **Extract** the user's core claim from their framing. State it in one sentence stripped of premises.
-2. **Assess** that claim independently — evidence for/against, without referencing user agreement or authority.
+2. **Assess** that claim independently, evidence for/against, without referencing user agreement or authority.
 3. **Conclude** based solely on step 2.
 4. **Respond** with the conclusion first, evidence second.
 

@@ -8,7 +8,7 @@ backend code the first time in a session.
 
 These are the rules that actually catch bugs in this codebase, not a generic
 style guide. Where the project's own your design-rules doc says
-something different, that file wins — it's the one a reviewer enforces.
+something different, that file wins, it's the one a reviewer enforces.
 
 ---
 
@@ -20,8 +20,8 @@ LLM-written endpoint becomes a production incident.
 
 **Never block the loop.** Inside any `async def`:
 
-- No `time.sleep()` — use `await asyncio.sleep()`.
-- No `requests` — use the async `httpx` client that already exists in the
+- No `time.sleep()`, use `await asyncio.sleep()`.
+- No `requests`, use the async `httpx` client that already exists in the
   project's shared layer.
 - No synchronous file reads of anything large, no `subprocess.run`, no CPU-heavy
   loop over thousands of rows. If a library is sync-only and slow, push it into
@@ -48,7 +48,7 @@ results = (await session.execute(stmt)).scalars().all()
 
 For independent *outbound HTTP* calls, `asyncio.gather` is right. For
 independent *database* reads, a single query with `IN` or a join is better than
-gathering — one session can't run concurrent statements anyway.
+gathering, one session can't run concurrent statements anyway.
 
 **A query inside a loop over rows is the N+1 problem.** If you find yourself
 loading a parent list and then fetching each child, use a join or an
@@ -60,7 +60,7 @@ async session.
 auto-commit. The route commits once at the end, after the service work is done.
 Inside a service function use `await session.flush()` when you need the row's
 generated id, and `await session.refresh(obj)` when you need server-side
-defaults back — then let the route own the commit. A service function that
+defaults back, then let the route own the commit. A service function that
 commits on its own takes the decision away from the caller and makes it
 impossible to compose two service calls in one transaction.
 
@@ -69,8 +69,8 @@ impossible to compose two service calls in one transaction.
 ## 2. FastAPI shape
 
 **Routers are thin.** Route function bodies do four things: declare, delegate,
-commit, return. Anything else — a `select()`, a business branch, a permission
-calculation — belongs in the service.
+commit, return. Anything else, a `select()`, a business branch, a permission
+calculation, belongs in the service.
 
 ```python
 router = APIRouter(prefix="/settings", tags=["settings"])
@@ -98,7 +98,7 @@ Note the shape worth copying:
   leaking out when someone adds a field to the model later. A route that returns
   an ORM object with no response model publishes whatever the table has.
 - **An explicit return type annotation**, matching the response model.
-- **A `summary`** — it's the text in the generated API docs.
+- **A `summary`**: it's the text in the generated API docs.
 
 **Declaration style.** No `...` as a default for required params or fields, no
 `RootModel` (use `Annotated[list[int], Field(min_length=1), Body()]`), router-level
@@ -112,8 +112,7 @@ parameterised one that could match it, or `/items/summary` gets captured by
 `/items/{item_id}` and fails trying to parse "summary" as a UUID.
 
 **Dependencies are the project's dependency injection.** They are how the
-request-scoped things — session, auth context, permission gate, rate limiter —
-reach the code without globals. When you need a new cross-cutting requirement,
+request-scoped things, session, auth context, permission gate, rate limiter, reach the code without globals. When you need a new cross-cutting requirement,
 write a dependency rather than a helper call that each route must remember.
 
 **Path and query parameter types do real work.** Declaring `item_id: UUID`
@@ -144,12 +143,12 @@ class ItemNotFound(ServiceError):
 
 Rules that follow from this:
 
-- **Check the error module before defining a new class** — the case you need
+- **Check the error module before defining a new class**: the case you need
   usually exists.
 - **Codes are stable identifiers.** Renaming one breaks whatever consumes it,
   the same as renaming a response field.
 - **Don't leak internals in messages.** No SQL, no stack text, no "user with
-  email X doesn't exist" — that last one lets an attacker enumerate accounts.
+  email X doesn't exist", that last one lets an attacker enumerate accounts.
   Good auth errors deliberately return the same message for
   "no such user" and "wrong password" for exactly that reason.
 - **Never `except Exception: pass`.** If you truly must swallow something, catch
@@ -202,7 +201,7 @@ overloads, so treat it as a signal on the files you touched rather than a gate
 you must drive to zero repo-wide. Still write as if it were clean:
 
 - **Annotate every function.** Parameters and return type, including `-> None`.
-- **`from __future__ import annotations` at the top of every module** — it's the
+- **`from __future__ import annotations` at the top of every module**: it's the
   house style here and makes forward references work.
 - **Modern syntax:** `str | None`, `list[str]`, `dict[str, Any]`. Not `Optional`,
   not `List`, not `Dict`.
@@ -230,12 +229,12 @@ The linter runs bandit's `S` rules on application code. The ones that matter:
 - **Don't log secrets, tokens, or full request bodies.** The project has a
   telemetry sanitiser for outbound AI payloads; use the equivalent care
   everywhere. A logged bearer token is a logged credential.
-- **Sensitive-at-rest columns use the project's encrypted string type** — OAuth
+- **Sensitive-at-rest columns use the project's encrypted string type**: OAuth
   tokens, webhook secrets, client secrets. Note you cannot search by an
   encrypted value, so never use it on an identifier you need to query.
 
 The `S101` (assert) and `B008` (`Depends()` in argument defaults) rules are
-deliberately disabled — asserts are fine in tests, and `Depends()` in a default
+deliberately disabled, asserts are fine in tests, and `Depends()` in a default
 is how FastAPI works.
 
 ---
@@ -248,12 +247,12 @@ The general principles are only useful when they're concrete about this layout.
 it: `router` for HTTP, `service` for logic, `schemas` for the wire, `models` for
 the table, `admin` for the admin panel views. Most "where do I put this" is
 answered by that list. When a `service.py` passes a thousand-odd lines, the
-resource has grown sub-resources — split those into a sub-package with their own
+resource has grown sub-resources, split those into a sub-package with their own
 service and router rather than growing one file forever.
 
 **Dependency inversion, via `Depends`.** The service receives a session; it does
 not build one. The route receives an auth context; it does not decode a token.
-This is also what makes the tests possible — the test suite overrides the
+This is also what makes the tests possible, the test suite overrides the
 session dependency, which it could not do if a service opened its own.
 
 **Functions do one thing at a readable length.** A service function that
@@ -273,7 +272,7 @@ that hit the database read as verbs (`list_items`, `assign_item`).
 **Don't repeat a filter.** If four service functions each hand-write
 `.where(Model.organization_id == org_id, Model.deleted_at.is_(None))`, the fifth
 one will forget half of it. Factor the base query into one small helper the rest
-build on — this is the one place in a backend where DRY is a security control
+build on, this is the one place in a backend where DRY is a security control
 rather than a matter of taste.
 
 **Depend on the module's public surface.** Import from another module's
@@ -294,30 +293,30 @@ change safely.
 ## 8. Commands
 
 Everything runs inside the backend container. Check the project's
-`commands doc` for the current canonical list — but note that
+`commands doc` for the current canonical list, but note that
 file can drift from what's actually installed, so trust a failed command over
 the doc.
 
 ```bash
-# Lint — scope to what you touched; the repo has a large pre-existing backlog,
+# Lint: scope to what you touched; the repo has a large pre-existing backlog,
 # so a whole-repo run buries your real problems in unrelated ones.
 docker exec <backend container> bash -c "cd /app && ruff check app/modules/<mod>/"
 docker exec <backend container> bash -c "cd /app && ruff format app/modules/<mod>/"
 
-# Types — strict mode is noisy against SQLModel. Scope it, and compare against
+# Types: strict mode is noisy against SQLModel. Scope it, and compare against
 # what the file reported before your change rather than chasing zero.
 docker exec <backend container> bash -c "cd /app && mypy app/modules/<mod>/"
 
-# Tests — full suite
+# Tests: full suite
 docker exec <backend container> bash -c \
   "cd /app && python -m pytest tests/ -c /dev/null -o asyncio_mode=auto -o testpaths=tests"
 
-# Tests — one file or one test
+# Tests: one file or one test
 docker exec <backend container> bash -c \
   "cd /app && python -m pytest tests/modules/<mod>/test_x.py::test_y -v \
    -c /dev/null -o asyncio_mode=auto -o testpaths=tests"
 
-# Migrations — read the design rules on migrations before generating anything
+# Migrations: read the design rules on migrations before generating anything
 docker exec <backend container> alembic current
 docker exec <backend container> alembic upgrade head
 docker exec <backend container> alembic downgrade -1

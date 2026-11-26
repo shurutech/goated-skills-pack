@@ -53,7 +53,7 @@ done
 if [ "$HOOKS" = 1 ]; then
   mkdir -p "$DEST/hooks"
   for f in "$SRC"/hooks/*.js "$SRC"/hooks/bin; do place "$f" "$DEST/hooks/$(basename "$f")"; done
-  echo "hooks copied; add them to settings.json — see hooks/README.md"
+  echo "hooks copied; add them to settings.json, see hooks/README.md"
 fi
 
 if [ "$RULES" = 1 ]; then

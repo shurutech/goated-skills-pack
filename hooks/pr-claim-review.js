@@ -144,7 +144,7 @@ function main() {
   const lines = [
     'pr-claim-review: a pull request now exists. Its body has not been checked against its diff.',
     '',
-    'For each PR below, spawn ONE general-purpose subagent — it must not',
+    'For each PR below, spawn ONE general-purpose subagent, it must not',
     'receive your reasoning, your summary, or any session history:',
     '',
   ];
@@ -168,7 +168,7 @@ function main() {
     '',
     'Then act on it: fix the body or the PR for every WRONG, settle or delete every UNKNOWN',
     'process claim, and account for every unclaimed hunk. Report the outcome in plain words.',
-    'Do not argue with the report from memory — it read the diff.'
+    'Do not argue with the report from memory, it read the diff.'
   );
 
   process.stderr.write(lines.join('\n') + '\n');

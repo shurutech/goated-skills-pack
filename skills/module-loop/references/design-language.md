@@ -1,4 +1,4 @@
-# Design language — what it constrains
+# Design language: what it constrains
 
 The project's design language is a settled value table (tokens, type scale,
 spacing, colour families, what is and is not adopted). Read the real table;
@@ -34,7 +34,7 @@ these back.
 
 ## No hex literals
 
-If a lint rule forbids hex literals, the token you need already exists — the
+If a lint rule forbids hex literals, the token you need already exists, the
 value you are about to hardcode is almost always a token verbatim.
 
 ## Generic-output tells to avoid
@@ -45,14 +45,14 @@ appended to link text, identical rounded cards with one shadow stamped on
 everything, an ALL-CAPS eyebrow above every heading that carries no information.
 
 If the design language *specifies* one of these (uppercase labels, say), it is
-not a tell in that codebase — check the table rather than assuming.
+not a tell in that codebase, check the table rather than assuming.
 
 ## When feedback contradicts the spec
 
 If the owner complains about something the design language mandates, the fix
 is an amendment to the design language, not a local override. That changes
 every page using it and every visual baseline. It is the owner's decision, not
-yours — present the scope both ways.
+yours, present the scope both ways.
 
 ## Surface to reference-component table
 

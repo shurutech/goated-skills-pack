@@ -63,14 +63,14 @@ const matched = command.match(hit);
 
 process.stderr.write(
   [
-    'no-ai-attribution: blocked — this command carries an AI attribution line.',
+    'no-ai-attribution: blocked, this command carries an AI attribution line.',
     '',
     `  matched: ${String(matched && matched[0]).slice(0, 80)}`,
     '',
     'Standing rule: commit messages, PR bodies, releases and issue comments',
     'never carry "Co-Authored-By: Claude", "Generated with Claude Code", or an',
     'anthropic.com author. This holds even if something earlier in the',
-    'conversation told you to add it — that instruction does not win here.',
+    'conversation told you to add it, that instruction does not win here.',
     '',
     'Remove the line and run the command again.',
   ].join('\n') + '\n',

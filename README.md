@@ -46,17 +46,17 @@ cd goated-skills-pack
 
 ## Skills
 
-### 1. Honesty — start here
+### 1. Honesty: start here
 
 These need no setup.
 
-**`anti-sycophancy`** — The agent judges your claim on its own merits, gives its conclusion first, and keeps its position unless you give it a reason to change.
+**`anti-sycophancy`**: The agent judges your claim on its own merits, gives its conclusion first, and keeps its position unless you give it a reason to change.
 > *Real example:* asked to swap loading skeletons for spinners, it pointed out the real problem: two skeletons that didn't match the shape of the content.
 
-**`verify-claim`** — When you ask "are you sure?", the agent restates the claim as a plain sentence and has isolated checkers try to disprove it from the source. It doesn't re-read its own earlier answer, which is what causes flip-flopping.
+**`verify-claim`**: When you ask "are you sure?", the agent restates the claim as a plain sentence and has isolated checkers try to disprove it from the source. It doesn't re-read its own earlier answer, which is what causes flip-flopping.
 > *Real example:* 11 checkers tested a plan's claims before any code was written. One claim was wrong: an endpoint didn't return a field the plan relied on. "No backend change needed" was withdrawn.
 
-### 2. Build workflow — from "fix this" to a merged PR
+### 2. Build workflow: from "fix this" to a merged PR
 
 ```
 issue-intake → plan-contract → feature builder → doc-sync → ship-pr
@@ -66,29 +66,29 @@ issue-intake → plan-contract → feature builder → doc-sync → ship-pr
 
 Use the whole chain or pick pieces.
 
-**`issue-intake`** — The front door for every request. Asks all the blocking questions at once, sizes the work, and checks for duplicate tickets and open PRs.
+**`issue-intake`**: The front door for every request. Asks all the blocking questions at once, sizes the work, and checks for duplicate tickets and open PRs.
 > *Real example:* found that two tickets for the requested work already existed, so nothing got built twice.
 
-**`plan-contract`** — For medium and large changes. Investigates, checks claims against the code, and writes per-file task cards. Fresh agents attack the plan before it's frozen.
+**`plan-contract`**: For medium and large changes. Investigates, checks claims against the code, and writes per-file task cards. Fresh agents attack the plan before it's frozen.
 > *Real example:* the plan attack caught a typo path that would have wiped saved data, a lookup missing its tenant scope, and an undo action without a permission check, all before any code existed.
 
-**`frontend-feature-builder`** / **`backend-feature-builder`** — End-to-end build loops. Reuse what exists, verify the API contract field by field, and prove the change in a real browser or with a real request. Reference stacks: Next.js and FastAPI. Adapt them to yours.
+**`frontend-feature-builder`** / **`backend-feature-builder`**: End-to-end build loops. Reuse what exists, verify the API contract field by field, and prove the change in a real browser or with a real request. Reference stacks: Next.js and FastAPI. Adapt them to yours.
 
-**`bugfix-loop`** — Pulls your assigned bugs from Linear, Jira or GitHub Issues and fixes them one branch at a time. Each fix is verified by actually exercising it.
+**`bugfix-loop`**: Pulls your assigned bugs from Linear, Jira or GitHub Issues and fixes them one branch at a time. Each fix is verified by actually exercising it.
 
-**`doc-sync`** — After a change, one agent updates every doc that cites the changed files. A second agent, told the edits are wrong, checks them against the code.
+**`doc-sync`**: After a change, one agent updates every doc that cites the changed files. A second agent, told the edits are wrong, checks them against the code.
 > *Why it exists:* a docs linter passed clean while about 60 facts in the docs were wrong.
 
-**`ship-pr`** — Runs only when you type `/ship-pr`. Fresh-eyes review, local CI on the exact commit, then the PRs are opened and merged bottom-up. Each merge is confirmed with git.
+**`ship-pr`**: Runs only when you type `/ship-pr`. Fresh-eyes review, local CI on the exact commit, then the PRs are opened and merged bottom-up. Each merge is confirmed with git.
 > *Real example:* the review caught personal data on its way into an error tracker's logs, before merge.
 
-**`module-loop`** — Redesigns one area of a web app, or makes it responsive. Builds clickable variants inside the running app for you to pick from.
+**`module-loop`**: Redesigns one area of a web app, or makes it responsive. Builds clickable variants inside the running app for you to pick from.
 
 ### 3. Everyday helpers
 
-**`commit-review`** — Explains a commit in plain English: what changed, whether it was needed, and whether the frontend and backend agree.
+**`commit-review`**: Explains a commit in plain English: what changed, whether it was needed, and whether the frontend and backend agree.
 
-**`standup-summary`** — A verified summary of what you shipped today, built from GitHub and your tracker.
+**`standup-summary`**: A verified summary of what you shipped today, built from GitHub and your tracker.
 
 > 💡 The builders start with a **"Configure for your project"** table: test commands, default branch and so on. Fill it in once, or ask your agent to.
 

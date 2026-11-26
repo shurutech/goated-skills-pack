@@ -1,6 +1,6 @@
 # Anti-Sycophancy
 
-A skill that detects and eliminates sycophantic patterns in AI responses. Sycophancy is when an AI prioritises affirming a user's stated or implied beliefs over epistemic integrity — an RLHF structural artifact, not an attitude problem.
+A skill that detects and eliminates sycophantic patterns in AI responses. Sycophancy is when an AI prioritises affirming a user's stated or implied beliefs over epistemic integrity, an RLHF structural artifact, not an attitude problem.
 
 Original author: Mayuresh Kadu, [mskadu/opencode-agent-skills](https://github.com/mskadu/opencode-agent-skills) (MIT, see `LICENSE` in this folder). Redistributed via [sickn33/agentic-awesome-skills](https://github.com/sickn33/agentic-awesome-skills).
 
@@ -57,7 +57,7 @@ With the anti-sycophancy skill active, review this architecture:
 No pattern matching. A single procedural discipline applied to every response:
 
 1. **Extract** the user's core claim from their framing. State it stripped of premises.
-2. **Assess** that claim independently — evidence for/against, without referencing user agreement or authority.
+2. **Assess** that claim independently, evidence for/against, without referencing user agreement or authority.
 3. **Conclude** based solely on step 2.
 4. **Respond** with the conclusion first, evidence second.
 

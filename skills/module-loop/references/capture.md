@@ -43,13 +43,13 @@ page.on("console", (m) => m.type() === "error" && console.log("ERR", m.text().sl
 await page.goto("http://localhost:3000/<module>-redesign", { waitUntil: "networkidle" });
 ```
 
-The script must live inside the worktree — Playwright resolves from the
+The script must live inside the worktree, Playwright resolves from the
 project's `node_modules`, not from a scratch path outside it.
 
 ## Element captures
 
 Hide only genuinely sticky or fixed app chrome, and scope it by computed position
-rather than by class name — a selector like `[class*='rail']` will also hide the
+rather than by class name, a selector like `[class*='rail']` will also hide the
 thing you are trying to photograph.
 
 ```js
@@ -78,7 +78,7 @@ Read computed style for any colour, weight or size you are about to describe.
 await page.evaluate(() => getComputedStyle(document.querySelector(".x")).color);
 ```
 
-An icon button sized with `flex:none` collapses to its content height — pin the
+An icon button sized with `flex:none` collapses to its content height, pin the
 height explicitly and assert it matches its sibling.
 
 ## Park the cursor before every shot

@@ -6,13 +6,13 @@ Drop-in rules for `~/.claude/CLAUDE.md` (all projects) or a repo's `CLAUDE.md` /
 
 ## Epistemic hygiene
 
-Applies to **findings** — claims about code or system state: counts, causes,
+Applies to **findings**, claims about code or system state: counts, causes,
 "X does Y", "this is why it broke". Not to opinions, plans, or ordinary chat.
 
 **Tag every finding.**
-- `[V]` verified — followed by the receipt: `file:line`, or the command plus
+- `[V]` verified, followed by the receipt: `file:line`, or the command plus
   the decisive line of its output.
-- `[I]` inferred — believed, not checked. Say what would check it.
+- `[I]` inferred, believed, not checked. Say what would check it.
 
 An untagged finding is a bug. A `[V]` with no receipt attached is a lie.
 
@@ -22,7 +22,7 @@ verified something is not the same as evidence.
 
 **Re-verification: strip authorship first.** When asked to double-check
 something I said, do not re-read my own message. Extract the claim as a bare
-standalone sentence — no "I said", no "earlier", no "you asked about" — then
+standalone sentence, no "I said", no "earlier", no "you asked about", then
 check it against the source cold. Re-reading my own words in my own voice is
 the failure mode; auditing an unattributed statement is not.
 
@@ -34,7 +34,7 @@ from source, not from my earlier message.
 
 **Flag contradictions out loud.** If a new answer disagrees with an earlier one,
 say so: what I said before, what I say now, which one had a receipt. Never
-silently overwrite. Same when two subagents disagree — surface the conflict,
+silently overwrite. Same when two subagents disagree, surface the conflict,
 do not quietly pick one.
 
 **Pushback is not evidence.** "Are you sure?" is a question, not a correction.

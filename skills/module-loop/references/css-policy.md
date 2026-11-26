@@ -1,4 +1,4 @@
-# CSS policy — attrition, not migration
+# CSS policy: attrition, not migration
 
 For an app that has a large bespoke stylesheet next to a utility framework
 (Tailwind or similar), the answer to "should we move to utilities properly?" is
@@ -18,7 +18,7 @@ no plumbing work left.
 
 - If several module redesigns are queued, utility-first raises the cost of
   *each* of them; you would pay the migration once and the penalty N times.
-- It regenerates every visual baseline in one commit — an unreviewable PR.
+- It regenerates every visual baseline in one commit, an unreviewable PR.
 - A refactor with no reported developer pain and no user-facing symptom is churn.
 
 ## Why not "keep the CSS" either
@@ -35,12 +35,12 @@ module directories use it, and bucket them:
 
 | Spread | Disposition |
 |---|---|
-| 0 uses anywhere | dead — delete on sight (after the checks below) |
+| 0 uses anywhere | dead, delete on sight (after the checks below) |
 | exactly 1 module dir | migrate with that module, delete the class in the same PR |
 | 2–5 module dirs | migrate when the last consumer is redesigned |
-| 6+ module dirs | shared core — stays |
+| 6+ module dirs | shared core, stays |
 
-Re-measure rather than trusting an old table — it ages with every redesign.
+Re-measure rather than trusting an old table, it ages with every redesign.
 
 **"0 uses" is a grep result, not proof.** Before deleting, check the three ways
 a class is used without appearing literally in the source:
@@ -57,14 +57,14 @@ a class is used without appearing literally in the source:
 2. Classes only that module used are deleted from whichever CSS file holds them,
    in the same PR. A file left empty is deleted with its import.
 3. The shared core and the shared primitives are untouched.
-4. Inline styles in the touched files go too (static ones are pure debt — they
+4. Inline styles in the touched files go too (static ones are pure debt, they
    bypass both systems).
 5. The count of top-level design-system classes strictly decreases; collisions
    between bespoke classes and framework utilities stay at 0.
 
 **It is free.** A redesign PR regenerates that module's visual baselines anyway,
 so converting its markup in the same PR adds no extra baseline churn. This only
-holds while the migration rides a redesign — a standalone CSS sweep pays full
+holds while the migration rides a redesign, a standalone CSS sweep pays full
 price for nothing.
 
 ## What cannot go module by module

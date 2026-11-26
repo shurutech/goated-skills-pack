@@ -3,7 +3,7 @@
 > Written from a real multi-tenant FastAPI + Postgres codebase. Names, fixtures, paths and commands are examples: map them to your repo before following them literally.
 
 pytest with `pytest-asyncio` in auto mode, and httpx driving the FastAPI app
-in-process through `ASGITransport` — so a test makes a real request through the
+in-process through `ASGITransport`, so a test makes a real request through the
 real middleware, dependencies, and error handlers, against a real Postgres,
 without a network hop or a running server.
 
@@ -16,7 +16,7 @@ Read `tests/conftest.py` before writing tests. The important mechanics:
 **Tests run in a transaction that rolls back.** The `session` fixture opens an
 async session and rolls it back at the end, so tests don't leave rows behind
 even though they share the development database. Do not commit for real inside
-a test to "make it stick" — that's how a test suite starts poisoning the
+a test to "make it stick", that's how a test suite starts poisoning the
 database it runs against.
 
 **The session is injected into the app.** The fixture overrides the app's
@@ -42,12 +42,12 @@ already there.
 | Fixture | What you get |
 |---|---|
 | `session` | Async session, rolled back at the end |
-| `unauthenticated_client` | Client with no auth header — for signup, signin, health, and 401 checks |
+| `unauthenticated_client` | Client with no auth header, for signup, signin, health, and 401 checks |
 | `client` | Client authed as a fresh signup, premium plan, with the bearer token already in the default headers |
 | `current_user` | The user record behind `client` |
 | `current_tenant` | The organization record behind `client` |
 | `auth_session` | The raw signup result, when you need the token or ids directly |
-| `other_tenant_client` | A second user in their **own** organization — the cross-org isolation fixture |
+| `other_tenant_client` | A second user in their **own** organization, the cross-org isolation fixture |
 
 Reach for `client` by default. Use `unauthenticated_client` only when the point of the
 test is the unauthenticated path.
@@ -93,7 +93,7 @@ Points worth copying:
 These are the failures that reach production quietly, because the happy path
 keeps working.
 
-**Cross-org isolation — the highest-value backend test there is.** For any new
+**Cross-org isolation, the highest-value backend test there is.** For any new
 endpoint that reads or writes a business table, `other_tenant_client` must not be
 able to see or touch the first organization's record:
 
@@ -109,7 +109,7 @@ async def test_items_invisible_across_orgs(
     assert item_id not in [item["id"] for item in listed.json()["items"]]
 
     fetched = await other_tenant_client.get(f"/api/v1/items/{item_id}")
-    assert fetched.status_code == 404      # 404, not 403 — a 403 confirms it exists
+    assert fetched.status_code == 404      # 404, not 403, a 403 confirms it exists
 ```
 
 Cover both the list endpoint and the detail-by-id endpoint. The list case
@@ -123,7 +123,7 @@ applies to.
 
 **Role boundaries.** Every role the endpoint should refuse gets a test asserting
 the refusal, with the status code the design rules name. Don't test only the
-owner path — the owner path is the one that works.
+owner path, the owner path is the one that works.
 
 **The unauthenticated path.** No token means 401. Use `unauthenticated_client`. This
 catches a route that was accidentally registered without its auth dependency,
@@ -195,6 +195,6 @@ Run your new tests first, then the module's whole test directory to catch what
 you broke nearby. Run the full suite before reporting done.
 
 **Report failures honestly, with the output.** If a test was already failing
-before your change, say that explicitly and separately — don't fold it into
+before your change, say that explicitly and separately, don't fold it into
 your summary as if you caused it, and don't quietly fix it inside an unrelated
 diff either.
