@@ -1,0 +1,92 @@
+<title>Module Preview</title>
+<style>
+/* Review shell: a bar with the version switch and start page, the real app running live below at desktop width, notes folded under the bar. */
+:root {
+  --bg: #ffffff; --fg: #0d0d0d; --muted: #6f6a62; --line: #e7e3dc; --soft: #f6f4f0; --focus: #3f6b55;
+  --sans: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg: #171614; --fg: #eeeae4; --muted: #a39d93; --line: #34312c; --soft: #211f1c; --focus: #8fb9a2; color-scheme: dark } }
+:root[data-theme="dark"] { --bg: #171614; --fg: #eeeae4; --muted: #a39d93; --line: #34312c; --soft: #211f1c; --focus: #8fb9a2; color-scheme: dark }
+html, body { height: 100% }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 14px/1.5 var(--sans); display: flex; flex-direction: column }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 10px 16px; border-bottom: 1px solid var(--line) }
+.bar h1 { font-size: 15px; font-weight: 600; margin: 0 }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 2px; padding: 3px; border-radius: 10px; background: var(--soft) }
+.seg button { font: inherit; font-size: 13px; font-weight: 500; border: 0; background: transparent; color: var(--muted); height: 30px; padding: 0 12px; border-radius: 7px; cursor: pointer }
+.seg button[aria-pressed="true"] { background: var(--bg); color: var(--fg); box-shadow: 0 1px 2px rgba(0,0,0,.12) }
+.seg button:focus-visible, summary:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px }
+.lab { font-size: 12px; color: var(--muted) }
+details { border-bottom: 1px solid var(--line); padding: 8px 16px }
+summary { cursor: pointer; font-size: 13px; font-weight: 500 }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 8px 28px; padding-block: 8px 4px; font-size: 13px; color: var(--muted); max-width: 1400px }
+.notes h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; margin: 4px 0; color: var(--fg) }
+.notes ul, .notes ol { margin: 0; padding-left: 18px; display: grid; gap: 4px }
+.notes b { color: var(--fg); font-weight: 600 }
+.frame { flex: 1; min-height: 0; position: relative; overflow: hidden }
+iframe { position: absolute; left: 0; top: 0; width: 1440px; height: 900px; border: 0; background: #fff; transform-origin: 0 0 }
+</style>
+
+<div class="bar">
+  <h1>Module redesign</h1>
+  <span class="lab" id="v-lab">Version</span>
+  <div class="seg" role="group" aria-labelledby="v-lab" id="versions">
+    <button type="button" data-k="0" aria-pressed="false">Before</button>
+    <button type="button" data-k="a" aria-pressed="true">A: option one</button>
+    <button type="button" data-k="b" aria-pressed="false">B: option two</button>
+  </div>
+  <span class="lab" id="p-lab">Start on</span>
+  <div class="seg" role="group" aria-labelledby="p-lab" id="pages">
+    <button type="button" data-p="list" aria-pressed="true">List</button>
+    <button type="button" data-p="detail" aria-pressed="false">Detail</button>
+  </div>
+</div>
+<details open>
+  <summary>What changed, and your call</summary>
+  <div class="notes">
+    <div>
+      <h2>What changes</h2>
+      <ul>
+        <li><b>One line per change</b>, in plain words.</li>
+        <li><b>This is the real app</b> with sample data. Click anything; changes last until you reload.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Your call</h2>
+      <ol>
+        <li><b>A or B.</b> One sentence on the trade-off, then which one you lean towards and why.</li>
+      </ol>
+    </div>
+  </div>
+</details>
+<div class="frame" id="frame"></div>
+
+<script>
+var cur = "a", page = "list", frame = null;
+try { cur = localStorage.getItem("pv-v") || "a"; page = localStorage.getItem("pv-p") || "list"; } catch (e) {}
+function render() {
+  document.querySelectorAll("#versions button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.k === cur)); });
+  document.querySelectorAll("#pages button").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.p === page)); });
+  if (frame) frame.remove();
+  frame = document.createElement("iframe");
+  frame.name = "v-" + cur;
+  frame.title = "App, version " + cur.toUpperCase();
+  frame.src = "app.html?start=" + page;
+  document.getElementById("frame").appendChild(frame);
+  fit();
+}
+document.querySelectorAll("#versions button").forEach(function (b) {
+  b.onclick = function () { cur = b.dataset.k; try { localStorage.setItem("pv-v", cur); } catch (e) {} render(); };
+});
+document.querySelectorAll("#pages button").forEach(function (b) {
+  b.onclick = function () { page = b.dataset.p; try { localStorage.setItem("pv-p", page); } catch (e) {} render(); };
+});
+function fit() {
+  if (!frame) return;
+  var box = document.getElementById("frame");
+  var s = Math.min(1, box.clientWidth / 1440);
+  frame.style.transform = "scale(" + s + ")";
+  frame.style.height = Math.round(box.clientHeight / s) + "px";
+}
+new ResizeObserver(fit).observe(document.getElementById("frame"));
+render();
+</script>
